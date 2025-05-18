@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI by Ishan</title>
+  <link rel="icon" type="image/x-icon" href="photo.jpg" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background-color: red;
+      padding: 14px 20px;
+    }
+
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    nav ul li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 14px 20px;
+      display: block;
+      transition: background-color 0.3s ease;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    nav ul li a:hover {
+      background-color: green;
+    }
+
+    nav ul li a img {
+      vertical-align: middle;
+      height: 24px;
+      width: 24px;
+    }
+
+    /* Automatic Slider */
+    .slider {
+      width: 90%;
+      max-width: 900px;
+      height: 400px;
+      margin: 30px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    }
+
+    .slides {
+      display: flex;
+      width: 400%; /* 4 images => 400% */
+      height: 100%;
+      animation: slide 12s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0%   { transform: translateX(0%); }
+      25%  { transform: translateX(-100%); }
+      50%  { transform: translateX(-200%); }
+      75%  { transform: translateX(-300%); }
+      100% { transform: translateX(0%); }
+    }
+
+    /* Content Section */
+    section {
+      background: white;
+      padding: 20px;
+      margin: 30px auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      text-align: left;
+    }
+
+    h1, h2 {
+      color: #2c3e50;
+    }
+
+    img {
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="index.html"><img src="home.png" alt="Home" /></a></li>
+      <li><a href="about.html">ABOUT ME</a></li>
+      <li><a href="contact.html">CONTACT ME</a></li>
+      <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
+      <li><a href="qualification.html">MY QUALIFICATION</a></li>
+      <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
+      <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
+    </ul>
+  </nav>
+
+  <!-- AI Title -->
+  <h1 style="color: blue;">ARTIFICIAL INTELLIGENCE</h1>
+  <img src="ai-image.jpg" width="400" height="300" alt="AI Banner" />
+
+  <!-- Automatic Image Slider -->
+  <div class="slider">
+    <div class="slides">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">   
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="AI image.avif" alt="Slide 1">
+      <img src="what-is-deep-learning.png" alt="Slide 2">
+      <img src="machine-learning.jpg" alt="Slide 3">
+      <img src="machine-learning.jpg" alt="Slide 3">
+    </div>
+  </div>
+
+  <!-- AI Content -->
+  <section>
+    <h2>Artificial Intelligence</h2>
+    <p>The term AI, coined in the 1950s, refers to the simulation of human intelligence by machines. It includes machine learning and deep learning.</p>
+    <p><strong>By Ishan, XI-A</strong></p>
+  </section>
+
+  <section>
+    <h2 style="color:darkgoldenrod">2022: AI in the Mainstream</h2>
+    <p>AI gained popularity due to ChatGPT and Generative Pre-Training Transformers. But ChatGPT is just a small part of AI’s broader usage.</p>
+  </section>
+
+  <section>
+    <h2>Key Takeaways</h2>
+    <ul>
+      <li>AI simulates human intelligence in machines.</li>
+      <li>Used in learning, reasoning, and perception.</li>
+      <li>AI is used in healthcare, finance, and more.</li>
+      <li>Weak AI = simple tasks; Strong AI = human-like abilities.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 style="color:deepskyblue">Goals of AI</h2>
+    <ul>
+      <li>Reasoning and problem-solving</li>
+      <li>Handling uncertainty and probability</li>
+      <li>Fast decision-making using heuristics</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 style="color:rebeccapurple">AI Tools</h2>
+    <ul>
+      <li>Search & Optimization</li>
+      <li>Planning Algorithms</li>
+      <li>Robotics and Object Handling</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 style="color:red">Deep Learning</h2>
+    <img src="deep-learning.jpg" width="400" height="300" alt="Deep Learning" />
+    <p>Deep learning uses multiple layers to extract features from data. It’s used in speech recognition, image analysis, and more.</p>
+  </section>
+
+</body>
+</html>
+<link rel="stylesheet" href="index.css">

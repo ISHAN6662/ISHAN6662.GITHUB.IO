@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bio</title>
+  <link rel="icon" type="image/x-icon" href="photo.jpg">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    nav {
+      background-color: red;
+      padding: 10px 0;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: inline-flex;
+    }
+
+    li {
+      margin: 0 10px;
+    }
+
+    li a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      font-size: 18px;
+    }
+
+    li a:hover {
+      background-color: green;
+      border-radius: 5px;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    img {
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .section {
+      padding: 30px 10px;
+    }
+
+    a {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    /* Slider Styles */
+    .slider {
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 9s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0%   { transform: translateX(0%); }
+      33%  { transform: translateX(-100%); }
+      66%  { transform: translateX(-200%); }
+      100% { transform: translateX(0%); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="index.html"><img src="home.png" height="26" width="26" alt="Home"></a></li>
+    <li><a href="about.html">ABOUT ME</a></li>
+    <li><a href="contact.html">CONTACT ME</a></li>
+    <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
+    <li><a href="qualification.html">MY QUALIFICATION</a></li>
+    <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
+    <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
+  </ul>
+</nav>
+
+<!-- Automatic Image Slider -->
+<div class="slider">
+  <div class="slides">
+    <img src="windows-xp.webp" alt="Windows">
+    <img src="kali-linux.png" alt="Mac OS">
+    <img src="mac=os.jpeg" alt="Linux">
+    <img src="android-os.jpg" alt="Linux">
+    <img src="windows-xp.webp" alt="Windows">
+    <img src="kali-linux.png" alt="Mac OS">
+    <img src="mac=os.jpeg" alt="Linux">
+    <img src="android-os.jpg" alt="Linux">
+    <img src="windows-xp.webp" alt="Windows">
+    <img src="kali-linux.png" alt="Mac OS">
+    <img src="mac=os.jpeg" alt="Linux">
+    <img src="android-os.jpg" alt="Linux">
+  </div>
+</div>
+
+<div class="section">
+  <h1>An Introduction To Operating System</h1>
+  <p>An operating system (OS) is system software that manages computer hardware and software resources, and provides common services for computer programs. Time-sharing operating systems schedule tasks for efficient use of the system and may also include accounting software for cost allocation of processor time, mass storage, peripherals, and other resources.</p>
+</div>
+
+<div class="section">
+  <h2 style="color: turquoise;">WINDOWS</h2>
+  <img src="windows 11.jpg" width="400" height="300" alt="Windows OS">
+  <p style="color: yellow;">Windows is one of the most successful and latest operating systems.</p>
+  <p><a href="https://www.microsoft.com/en-in/software-download">Download Windows</a></p>
+  <p>To download Windows:<br>
+    1. Click the download button.<br>
+    2. Open the downloaded file to start installing Windows.</p>
+</div>
+
+<div class="section">
+  <h2 style="color: darkseagreen;">MAC OS</h2>
+  <img src="ram.jpg" width="300" height="300" alt="Mac OS">
+  <p style="color: aquamarine;">Mac OS is also one of the most successful operating systems. It's quite difficult to install Mac OS on any PC (except Apple products).</p>
+  <p>
+    Step 1: <a href="https://archive.org/details/macOS-X-images">Download Mac OS Image</a><br>
+    Step 2: <a href="https://medium.com/swlh/pc-laptop-create-a-hackintosh-usb-stick-e11a03ca371f">Follow Installation Instructions</a>
+  </p>
+</div>
+
+<div class="section">
+  <h2 style="color: blue;">LINUX</h2>
+  <img src="linux image.jpg" width="300" height="300" alt="Linux OS">
+  <p style="color: deeppink;">Linux is one of the most successful open-source operating systems.</p>
+  <p style="color: gold;">
+    Step 1: <a href="https://www.linux.org/pages/download/#">Download Linux</a><br>
+    Step 2: <a href="https://rufus.ie/en/">Download Rufus Bootable USB tool</a><br>
+    Step 3: Insert your USB drive into your PC.<br>
+    Step 4: Load the Linux ISO into the USB using Rufus.<br>
+    Step 5: Boot into BIOS and set USB as the boot device.<br>
+    Step 6: Install Linux.
+  </p>
+</div>
+
+</body>
+</html>
+<link rel="stylesheet" href="index.css">

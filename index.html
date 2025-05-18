@@ -1,69 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Bio</title>
-  <link rel="icon" type="image/x-icon" href="photo.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="photo.jpg" />
   <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
       background-color: #f0f0f0;
       font-family: Arial, sans-serif;
       text-align: center;
+      color: red;
     }
 
+    /* Navigation */
     nav {
-      background-color: #333333;
-      padding: 10px 0;
+      background-color: red;
+      padding: 14px 20px;
     }
 
-    ul {
-      list-style-type: none;
+    nav ul {
       margin: 0;
       padding: 0;
-      display: inline-flex; /* Center horizontally */
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
     }
 
-    li {
-      margin: 0 10px;
-    }
-
-    li a {
-      display: block;
+    nav ul li a {
       color: white;
       text-decoration: none;
-      padding: 14px 20px;
       font-size: 18px;
-    }
-
-    li a:hover {
-      background-color: #111111;
+      padding: 14px 20px;
+      display: block;
+      transition: background-color 0.3s ease;
       border-radius: 5px;
     }
 
+    nav ul li a:hover {
+      background-color: green;
+    }
+
+    nav ul li a img {
+      vertical-align: middle;
+      height: 24px;
+      width: 24px;
+    }
+
+    /* Heading */
     h1 {
-      margin-top: 50px;
-      color: #333;
+      margin-top: 40px;
+      font-size: 2.4rem;
+      font-weight: 600;
+    }
+
+    /* Profile photo outside slider */
+    .profile-photo {
+      margin: 30px auto;
+      width: 300px;
+      height: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slider container */
+    .slider {
+      position: relative;
+      width: 50%;
+      height: 50%;
+      max-width: 430px;
+      margin: 40px auto 60px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.25);
+      overflow: hidden;
+      background-color: white;
+    }
+
+    /* Slide images */
+    .slide {
+      display: none;
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    /* Slider buttons */
+    .slider button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.4);
+      border: none;
+      color: white;
+      font-size: 28px;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      z-index: 10;
+    }
+
+    .slider button:hover {
+      background-color: rgba(0,0,0,0.7);
+    }
+
+    .slider .prev {
+      left: 15px;
+    }
+
+    .slider .next {
+      right: 15px;
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <ul>
-    <li><a href="index.html"><img src="icon4.png" height="26" width="26"></a></li>
-    <li><a href="about.html">ABOUT ME</a></li>
-    <li><a href="contact.html">CONTACT ME</a></li>
-    <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
-    <li><a href="qualification.html">MY QUALIFICATION</a></li>
-  </ul>
-</nav>
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="index.html"><img src="home.png" alt="Home" height="26" width="26" /></a></li>
+      <li><a href="about.html">ABOUT ME</a></li>
+      <li><a href="contact.html">CONTACT ME</a></li>
+      <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
+      <li><a href="qualification.html">MY QUALIFICATION</a></li>
+      <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
+      <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
+    </ul>
+  </nav>
 
-<h1>Welcome to my bio!</h1>
+  <!-- Heading -->
+  <h1>Welcome to my bio!</h1>
 
-<img src="photo3.jpg" width="300" height="300" alt="Profile Photo">
+  <!-- Profile Photo Section -->
+  <div class="profile-photo">
+    <img src="car-photo.jpg" alt="Profile Photo" width="50" />
+  </div>
 
+  <!-- Image Slider Section -->
+  <div class="slider">
+    <img src="photo.jpg" class="slide active" alt="Slide 1" />
+    <img src="photo1.jpg" class="slide" alt="Slide 2" />
+    <img src="photo3.jpg" class="slide" alt="Slide 3" />
+
+    <button class="prev" aria-label="Previous Slide">&#10094;</button>
+    <button class="next" aria-label="Next Slide">&#10095;</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      showSlide(currentIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      showSlide(currentIndex);
+    });
+  </script>
 </body>
 </html>
+<link rel="stylesheet" href="index.css">
