@@ -6,6 +6,10 @@
   <title>My Bio</title>
   <link rel="icon" type="image/x-icon" href="photo.jpg">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -13,100 +17,114 @@
       font-family: Arial, sans-serif;
       text-align: center;
     }
-
     nav {
-      background-color: red;
-      padding: 10px 0;
+      background-color: cornflowerblue;
+      padding: 14px 20px;
     }
 
-    ul {
-      list-style-type: none;
+    nav ul {
       margin: 0;
       padding: 0;
-      display: inline-flex;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
     }
 
-    li {
-      margin: 0 10px;
+    nav ul li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    li a {
-      display: block;
-      color: white;
+    nav ul li a {
+      color: black;
       text-decoration: none;
-      padding: 14px 20px;
       font-size: 18px;
-    }
-
-    li a:hover {
-      background-color: green;
+      padding: 14px 20px;
+      display: block;
+      transition: background-color 0.3s ease;
       border-radius: 5px;
+      text-align: center;
     }
 
-    h1, h2 {
-      color: #333;
+    nav ul li a:hover {
+      background-color: lightblue;
     }
 
-    img {
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    nav ul li a img {
+      vertical-align: middle;
+      height: 24px;
+      width: 24px;
     }
 
-    .section {
-      padding: 30px 10px;
-    }
-
-    a {
-      color: blue;
-      text-decoration: underline;
-    }
-
-    /* Slider Styles */
+    /* Automatic Slider */
     .slider {
-      width: 100%;
-      max-width: 800px;
+      width: 90%;
+      max-width: 900px;
       height: 400px;
-      margin: 20px auto;
-      position: relative;
+      margin: 30px auto;
       overflow: hidden;
-      border-radius: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.25);
     }
 
     .slides {
       display: flex;
-      width: 300%;
-      animation: slide 9s infinite;
+      width: 400%; /* 4 images => 400% */
+      height: 100%;
+      animation: slide 12s infinite;
     }
 
     .slides img {
       width: 100%;
-      height: 400px;
+      height: 100%;
       object-fit: cover;
     }
 
     @keyframes slide {
       0%   { transform: translateX(0%); }
-      33%  { transform: translateX(-100%); }
-      66%  { transform: translateX(-200%); }
+      25%  { transform: translateX(-100%); }
+      50%  { transform: translateX(-200%); }
+      75%  { transform: translateX(-300%); }
       100% { transform: translateX(0%); }
+    }
+
+    /* Content Section */
+    section {
+      background: white;
+      padding: 20px;
+      margin: 30px auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      text-align: left;
+    }
+
+    h1, h2 {
+      color: #2c3e50;
+    }
+
+    img {
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-
-<nav>
-  <ul>
-    <li><a href="index.html"><img src="home.png" height="26" width="26" alt="Home"></a></li>
-    <li><a href="about.html">ABOUT ME</a></li>
-    <li><a href="contact.html">CONTACT ME</a></li>
-    <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
-    <li><a href="qualification.html">MY QUALIFICATION</a></li>
-    <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
-    <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
-  </ul>
-</nav>
-
-<!-- Automatic Image Slider -->
+  <nav>
+    <ul>
+      <li><a href="index.html"><img src="home.png" alt="Home" height="26" width="26" /></a></li>
+      <li><a href="about.html">ABOUT ME</a></li>
+      <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
+      <li><a href="qualification.html">MY QUALIFICATION</a></li>
+      <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
+      <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
+      <li><a href="ALL.html">MISCELLANEOUS</a></li>
+      <li><a href="cricket.html">CRICKET</a></li>
+      <li><a href="contact.html">CONTACT ME</a></li>
+    </ul>
+  </nav>
 <div class="slider">
   <div class="slides">
     <img src="windows-xp.webp" alt="Windows">
@@ -121,6 +139,16 @@
     <img src="kali-linux.png" alt="Mac OS">
     <img src="mac=os.jpeg" alt="Linux">
     <img src="android-os.jpg" alt="Linux">
+    <img src="android-os.jpg" alt="Linux">
+    <img src="windows-xp.webp" alt="Windows">
+    <img src="kali-linux.png" alt="Mac OS">
+    <img src="mac=os.jpeg" alt="Linux">
+    <img src="android-os.jpg" alt="Linux">
+    <img src="windows-xp.webp" alt="Windows">
+    <img src="kali-linux.png" alt="Mac OS">
+    <img src="mac=os.jpeg" alt="Linux">
+    <img src="android-os.jpg" alt="Linux">
+    
   </div>
 </div>
 

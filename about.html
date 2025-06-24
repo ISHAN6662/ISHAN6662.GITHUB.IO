@@ -6,69 +6,184 @@
   <title>My Bio</title>
   <link rel="icon" type="image/x-icon" href="photo.jpg">
   <style>
-    body {
+    /* --- Universal Resets & Base Styles --- */
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
+    }
+
+    body {
+      background-color: #d4d0e9;
       font-family: Arial, sans-serif;
       text-align: center;
+      color: #333;
     }
 
+    /* --- Navigation Bar Styles --- */
     nav {
-      background-color: red;
-      padding: 10px 0;
+      background-color: cornflowerblue;
+      padding: 14px 20px;
     }
 
-    ul {
-      list-style-type: none;
+    nav ul {
       margin: 0;
       padding: 0;
-      display: inline-flex; /* Center horizontally */
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
     }
 
-    li {
-      margin: 0 10px;
-    }
-
-    li a {
-      display: block;
-      color: white;
+    nav ul li a {
+      color: black;
       text-decoration: none;
-      padding: 14px 20px;
       font-size: 18px;
-    }
-
-    li a:hover {
-      background-color: green;
+      padding: 14px 20px;
+      display: block;
+      transition: background-color 0.3s ease;
       border-radius: 5px;
     }
 
+    nav ul li a:hover {
+      background-color: lightblue;
+    }
+
+    nav ul li a img {
+      vertical-align: middle;
+      height: 24px;
+      width: 24px;
+    }
+
+    /* --- Headings --- */
     h1 {
-      margin-top: 50px;
-      color: #333;
+      margin-top: 30px;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: black;
+    }
+
+    h2 {
+      color: green;
+    }
+
+    h3 {
+      color: saddlebrown;
+    }
+
+    /* --- Bio Section --- */
+    .bio-section {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .bio-section a {
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .bio-image {
+      margin: 20px auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      max-width: 90%;
+      height: auto;
+    }
+
+    /* --- Masked Circle Image --- */
+    .circle-mask {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      margin: 40px auto 20px;
+    }
+
+    .circle-mask .full-img {
+      width: 25vw;
+      height: 25vh;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .circle-mask:hover .full-img {
+      transform: translate(-15%, -15%);
+    }
+
+    /* --- Dynamic Intro --- */
+    .intro h1 {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .intro p {
+      font-size: 18px;
+    }
+
+    .dynamic-text {
+      background: yellow;
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <ul>
-    <li><a href="index.html"><img src="home.png" height="26" width="26"></a></li>
-    <li><a href="about.html">ABOUT ME</a></li>
-    <li><a href="contact.html">CONTACT ME</a></li>
-    <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
-    <li><a href="qualification.html">MY QUALIFICATION</a></li>
-    <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
-    <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
-  </ul>
-</nav>
+  <nav>
+    <ul>
+      <li><a href="index.html"><img src="home.png" alt="Home" /></a></li>
+      <li><a href="about.html">ABOUT ME</a></li>
+      <li><a href="gallery.html">MY PROFILE PHOTO</a></li>
+      <li><a href="qualification.html">MY QUALIFICATION</a></li>
+      <li><a href="Operating-system.html">OPERATING SYSTEM</a></li>
+      <li><a href="ai.html">ARTIFICIAL INTELLIGENCE</a></li>
+      <li><a href="ALL.html">MISCELLANEOUS</a></li>
+      <li><a href="cricket.html">CRICKET</a></li>
+      <li><a href="contact.html">CONTACT ME</a></li>
+    </ul>
+  </nav>
 
-<h1><pre><center>ABOUT ME</center>
-    Hello I am Ishan.I am a science student.I have passion in Maths and Coding.
-    Both Maths and Coding are related to eachother without maths and problem solving skills 
-    you can't become a good programmer.I even runs a youtube channel.
-    In which I uploaded viedos of maths and technology.
-    <a href="https://www.youtube.com/@mathsenglishandtechnology1022"><img src="youtube.png" height="30" width="30"></a>  
-</b></pre></h1>
-<center><img src="birthday-photo.jpg" width="500" height="500"></center>
-<link rel="stylesheet" href="index.css">
+  <div class="circle-mask">
+    <img class="full-img" src="photo.jpg" alt="Full Background Image">
+  </div>
+
+  <div class="intro">
+    <h1>I'M ISHAN SHOBRAN.</h1>
+    <p>I'm a <span class="dynamic-text" id="dynamicWord">coffee drinker.</span></p>
+    <p>From DELHI.</p>
+  </div>
+
+  <section class="bio-section">
+    <h1 class="h1-about">ABOUT ME</h1>
+    <p>Hello! I am Ishan. I am a science student with a passion for Maths and Coding.</p>
+    <p>Both Maths and Coding are deeply connected — without mathematical thinking and problem-solving skills, you can't become a great programmer.</p>
+    <p>I also run a YouTube channel where I upload videos on mathematics and technology.</p>
+    <a href="https://www.youtube.com/@mathsenglishandtechnology1022" target="_blank">
+      <img src="youtube.png" height="30" width="30" alt="YouTube Channel">
+    </a>
+  </section>
+
+  <img class="bio-image" src="birthday-photo.jpg" alt="Birthday Photo" width="500" height="500">
+
+  <script>
+    const words = ["coffee drinker.", "developer.", "designer.", "creator.", "gamer."];
+    let index = 0;
+
+    setInterval(() => {
+      index = (index + 1) % words.length;
+      document.getElementById("dynamicWord").textContent = words[index];
+    }, 2000);
+  </script>
+
+</body>
+</html>

@@ -1,4 +1,261 @@
-body {background-color:gold;}
-h1 {color: red;}
-h2 {color:green}
-h3 {color:saddlebrown}
+h1 {color: black;}
+h2 {color:black}
+h3 {color:black}
+/* style.css - CORRECTED VERSION */
+
+/* --- Universal Resets & Base Styles --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color:#d4d0e9; /* Use the lightblue you intended globally */
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: #333; /* Default body text color for consistency */
+}
+
+/* --- Navigation Bar Styles --- */
+nav {
+  background-color:cornflowerblue;
+  padding: 14px 20px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+nav ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 14px 20px;
+  display: block;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color:lightblue;
+}
+
+nav ul li a img {
+  vertical-align: middle;
+  height: 24px;
+  width: 24px;
+}
+
+/* --- Heading Styles --- */
+/* General H1, H2, H3 styles - specific colors will override these if a class is applied */
+h1 {
+  margin-top: 40px;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: black; /* Apply the general red for h1 as you requested */
+}
+
+h2 {
+    color: green; /* Apply the general green for h2 as you requested */
+}
+
+h3 {
+    color: saddlebrown; /* Apply the general saddlebrown for h3 as you requested */
+}
+
+
+/* Specific heading colors (these will override the general h1/h2/h3 colors if applied) */
+.h1-welcome { color: black; } /* Redundant if h1 is already red, but explicit for clarity */
+.h1-contact { color: #333; } /* Override for contact.html */
+.h1-about { color: #333; } /* Override for about.html */
+.h1-qualification { color: green; } /* Override for qualification.html */
+.h2-qualification-python { color: #333; } /* Override for qualification.html */
+.h3-certificate { color: #333; } /* Override for qualification.html */
+.h1-os-intro { color: #333; } /* Override for os.html */
+.h2-windows { color: darkorange; }
+.h2-mac { color: steelblue; }
+.h2-linux { color: blue; }
+.h1-ai-title { color: blue; } /* Override for ai.html */
+.h2-ai-main { color: #2c3e50; } /* Override for ai.html */
+.h2-ai-2022 { color: darkgoldenrod; }
+.h2-ai-key-takeaways { color: #2c3e50; }
+.h2-ai-goals { color: deepskyblue; }
+.h2-ai-tools { color: rebeccapurple; }
+.h2-ai-deep-learning { color: red; }
+
+
+/* --- Image & Section Styles --- */
+img {
+  border-radius: 8px; /* Consistent border-radius for images */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.section {
+  background: white;
+  padding: 20px;
+  margin: 30px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 900px;
+  text-align: left; /* Default for content sections */
+}
+
+/* --- Profile Photo (index.html) --- */
+.profile-photo {
+  margin: 30px auto;
+  width: 300px;
+  height: 300px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Manual Image Slider (index.html) --- */
+/* Ensure your index.html slider div has class="slider-manual" */
+.slider-manual {
+  position: relative;
+  width: 50%;
+  height: auto; /* Changed to auto to adapt to image height */
+  max-width: 430px;
+  margin: 40px auto 60px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.25);
+  overflow: hidden;
+  background-color: white;
+}
+
+.slider-manual .slide {
+  display: none;
+  width: 100%;
+  height: 450px; /* Specific height for images in this slider */
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.slider-manual .slide.active {
+  display: block;
+}
+
+.slider-manual button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.4);
+  border: none;
+  color: white;
+  font-size: 28px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  user-select: none;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.slider-manual button:hover {
+  background-color: rgba(0,0,0,0.7);
+}
+
+.slider-manual .prev {
+  left: 15px;
+}
+
+.slider-manual .next {
+  right: 15px;
+}
+
+/* --- Automatic Image Sliders (os.html, ai.html) --- */
+/* Ensure your OS and AI slider divs have class="slider-auto os-slider" or "slider-auto ai-slider" */
+.slider-auto {
+  width: 90%;
+  max-width: 900px;
+  height: 400px; /* Fixed height for the auto slider container */
+  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.25);
+}
+
+.slider-auto .slides-container {
+  display: flex;
+  height: 100%;
+  /* Removed individual animation properties here, they are specific to os-slider and ai-slider */
+}
+
+.slider-auto .slides-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* OS Slider Specific Animation */
+.slider-auto.os-slider .slides-container {
+  /* Calculate total width based on number of images that constitute one full animation cycle */
+  /* If you have 4 unique images (windows, kali, mac, android) and then they repeat, it's 400% */
+  width: 400%;
+  animation: osSlide 12s infinite; /* 4 images * 3s/image = 12s total duration */
+}
+
+@keyframes osSlide {
+  0%   { transform: translateX(0%); }
+  25%  { transform: translateX(-100%); } /* First image shown */
+  50%  { transform: translateX(-200%); } /* Second image shown */
+  75%  { transform: translateX(-300%); } /* Third image shown */
+  100% { transform: translateX(0%); }   /* Fourth image shown, then back to first */
+}
+
+/* AI Slider Specific Animation */
+.slider-auto.ai-slider .slides-container {
+  /* If you have 3 unique images (AI.avif, deep-learning, machine-learning) and they repeat */
+  width: 300%;
+  animation: aiSlide 9s infinite; /* 3 images * 3s/image = 9s total duration */
+}
+
+@keyframes aiSlide {
+  0%   { transform: translateX(0%); }
+  33.33% { transform: translateX(-100%); } /* First image shown */
+  66.66% { transform: translateX(-200%); } /* Second image shown */
+  100% { transform: translateX(0%); }     /* Third image shown, then back to first */
+}
+
+
+/* --- Other General Styles --- */
+a {
+  color: blue;
+  text-decoration: underline;
+}
+
+/* Paragraph text colors (used with classes) */
+.p-windows-text { color: brown; }
+.p-mac-text { color: steelblue; }
+.p-linux-text { color: deeppink; }
+.p-linux-steps { color: gold; }
+
+/* --- Table Styles (qualification.html) --- */
+table {
+  border: 2px solid darkred;
+  color: seagreen;
+  border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+  margin: 20px auto; /* Center table and add margin */
+}
+
+table tr, table td, table th { /* Be explicit with table elements */
+  border: 2px solid darkred;
+  color: seagreen;
+  text-align: center;
+  padding: 8px; /* Add some padding for readability */
+}
