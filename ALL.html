@@ -142,12 +142,39 @@
   <p>© 2025 Created by Ishan • Demo of Full HTML</p>
 </footer>
 
+  <img id="image" src="photo.jpg" alt="Image">
+  <p id="demo">Type here for search</p>
+
+  
+  <button type="button" onclick="myfunction()">Search here</button>
+
+  <form onsubmit="event.preventDefault(); myfunction();">
+   
+    <input type="text" id="search-it" name="search" placeholder="Search">
+  </form>
+
 <script>
   const ctx = document.getElementById('myCanvas').getContext('2d');
   ctx.fillStyle = 'green';
   ctx.fillRect(10, 10, 150, 75);
 </script>
-
+<script>
+    
+    function myfunction() {
+      let a = document.getElementById("search-it").value.trim().toLowerCase();
+      let img = document.getElementById("image");
+      if (a === "photo1") {
+        img.src = "photo1.jpg";
+      } else if (a === "photo2") {
+        img.src = "photo3.jpg";
+      } else if (a === "photo3") {
+        img.src = "photo.jpg";
+      } else {
+        img.src = "photo.jpg"; 
+      }
+      
+    }
+  </script>
 </body>
 </html>
 <link rel="stylesheet" href="index.css">
