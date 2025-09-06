@@ -1,0 +1,352 @@
+import mysql.connector
+import datetime
+import cv2
+import face_recognition
+import numpy as np
+
+# ---------------- Database Connection ----------------
+con = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="ISHAN6662",  # Change to your MySQL password
+    database="attendance_db"
+)
+cursor = con.cursor()
+
+# Ensure face_encoding column exists
+cursor.execute("SHOW COLUMNS FROM students LIKE 'face_encoding'")
+if not cursor.fetchone():
+    cursor.execute("ALTER TABLE students ADD COLUMN face_encoding BLOB")
+    con.commit()
+
+# ---------------- Teacher Functions ----------------
+def add_student():
+    roll = int(input("Enter Roll No: "))
+    name = input("Enter Name: ")
+    dept = input("Enter Department: ")
+    branch = input("Enter Branch: ")
+    section = input("Enter Section: ")
+    pwd = input("Set Password for Student: ")
+
+    print("📷 Capturing face... Look at the camera")
+    video = cv2.VideoCapture(0)
+    face_encoding = None
+
+    if not video.isOpened():
+        print("❌ Cannot open webcam")
+        return
+
+    while True:
+        ret, frame = video.read()
+        if not ret or frame is None:
+            continue
+
+        if frame.dtype != np.uint8:
+            frame = np.array(frame, dtype=np.uint8)
+
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        try:
+            face_locations = face_recognition.face_locations(rgb_frame)
+        except Exception as e:
+            print("⚠️ Face detection error:", e)
+            continue
+
+        if face_locations:
+            encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+            if encodings:
+                face_encoding = encodings[0]
+                top, right, bottom, left = face_locations[0]
+                cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+                cv2.putText(frame, "Face Captured", (50, 50),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                cv2.imshow("Register Face", frame)
+                cv2.waitKey(2000)
+                break
+
+        cv2.imshow("Register Face", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    video.release()
+    cv2.destroyAllWindows()
+
+    if face_encoding is None:
+        print("❌ Could not capture face. Student not added.\n")
+        return
+
+    encoding_bytes = face_encoding.tobytes()
+    try:
+        cursor.execute(
+            "INSERT INTO students (roll_no, name, department, branch, section, password, face_encoding) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (roll, name, dept, branch, section, pwd, encoding_bytes)
+        )
+        con.commit()
+        print("✅ Student added successfully with face data.\n")
+    except mysql.connector.IntegrityError:
+        print("❌ Roll No already exists.\n")
+
+def load_known_faces():
+    cursor.execute("SELECT roll_no, name, face_encoding FROM students WHERE face_encoding IS NOT NULL")
+    data = cursor.fetchall()
+    known_encodings, known_names, known_rolls = [], [], []
+
+    for row in data:
+        roll, name, encoding_bytes = row
+        if encoding_bytes:
+            encoding = np.frombuffer(encoding_bytes, dtype=np.float64)
+            known_encodings.append(encoding)
+            known_names.append(name)
+            known_rolls.append(roll)
+
+    return known_encodings, known_names, known_rolls
+
+def mark_attendance_by_camera():
+    known_encodings, known_names, known_rolls = load_known_faces()
+
+    if not known_encodings:
+        print("⚠️ No face data found. Please register students first.")
+        return
+
+    video = cv2.VideoCapture(0)
+    if not video.isOpened():
+        print("❌ Cannot open webcam")
+        return
+
+    print("📷 Camera started. Press 'q' to quit.")
+
+    while True:
+        ret, frame = video.read()
+        if not ret or frame is None:
+            continue
+
+        if frame.dtype != np.uint8:
+            frame = np.array(frame, dtype=np.uint8)
+
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        try:
+            face_locations = face_recognition.face_locations(rgb_frame)
+            face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+        except Exception as e:
+            print("⚠️ Face detection error:", e)
+            continue
+
+        for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
+            matches = face_recognition.compare_faces(known_encodings, face_encoding, tolerance=0.5)
+            face_distances = face_recognition.face_distance(known_encodings, face_encoding)
+            best_match = np.argmin(face_distances)
+
+            if matches[best_match]:
+                roll = known_rolls[best_match]
+                name = known_names[best_match]
+
+                today = datetime.date.today()
+                cursor.execute("SELECT * FROM attendance WHERE roll_no=%s AND date=%s", (roll, today))
+                if cursor.fetchone():
+                    msg = f"{name} ({roll}) already marked."
+                else:
+                    cursor.execute(
+                        "INSERT INTO attendance (roll_no, date, status) VALUES (%s, %s, %s)",
+                        (roll, today, "Present")
+                    )
+                    con.commit()
+                    msg = f"✅ Marked Present: {name} ({roll})"
+
+                cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+                cv2.putText(frame, msg, (left, top - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+
+        cv2.imshow("Attendance Camera", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    video.release()
+    cv2.destroyAllWindows()
+
+def add_attendance():
+    att_date_str = input("Enter date (YYYY-MM-DD): ")
+    att_date = datetime.datetime.strptime(att_date_str, "%Y-%m-%d").date()
+    today = datetime.date.today()
+
+    if att_date < today:
+        print("❌ You cannot add attendance for past dates.\n")
+        return
+
+    cursor.execute("SELECT * FROM students")
+    students = cursor.fetchall()
+
+    if not students:
+        print("⚠️ No students found. Please add students first.\n")
+        return
+
+    for s in students:
+        roll, name, dept, branch, section, pwd, face_enc = s
+        cursor.execute("SELECT status FROM attendance WHERE roll_no=%s AND date=%s", (roll, att_date))
+        result = cursor.fetchall()
+
+        if result:
+            old_status = result[0][0]
+            print(f"Attendance already exists for {name} ({roll}) on {att_date}. Status = {old_status}")
+            update_choice = input("Do you want to update it? (Y/N): ").strip().upper()
+            if update_choice != 'Y':
+                continue
+
+            while True:
+                status = input(f"Update attendance for {name} ({roll}) - P=Present, A=Absent, L=Leave: ").strip().upper()
+                if status in ['P', 'A', 'L']:
+                    break
+                print("❌ Invalid input!")
+
+            cursor.execute(
+                "UPDATE attendance SET status=%s WHERE roll_no=%s AND date=%s",
+                (("Present" if status == 'P' else "Absent" if status == 'A' else "Leave"), roll, att_date)
+            )
+            con.commit()
+            print(f"✅ Attendance updated for {name} ({roll}) on {att_date}\n")
+
+        else:
+            while True:
+                status = input(f"Mark attendance for {name} ({roll}) - P=Present, A=Absent, L=Leave: ").strip().upper()
+                if status in ['P', 'A', 'L']:
+                    break
+                print("❌ Invalid input!")
+
+            cursor.execute(
+                "INSERT INTO attendance (roll_no, date, status) VALUES (%s,%s,%s)",
+                (roll, att_date, "Present" if status == 'P' else "Absent" if status == 'A' else "Leave")
+            )
+            con.commit()
+            print(f"✅ Attendance added for {name} ({roll}) on {att_date}\n")
+
+def check_attendance_teacher():
+    cursor.execute("SELECT DISTINCT date FROM attendance ORDER BY date")
+    working_days = cursor.fetchall()
+
+    valid_days = 0
+    for d in working_days:
+        cursor.execute("SELECT COUNT(*) FROM attendance WHERE date=%s AND status IN ('Present','Absent')", (d[0],))
+        if cursor.fetchone()[0] > 0:
+            valid_days += 1
+
+    cursor.execute("""
+        SELECT s.roll_no, s.name, s.department, s.branch, s.section,
+               COUNT(CASE WHEN a.status='Present' THEN 1 END)
+        FROM students s
+        LEFT JOIN attendance a ON s.roll_no=a.roll_no
+        GROUP BY s.roll_no, s.name, s.department, s.branch, s.section
+    """)
+    records = cursor.fetchall()
+
+    print("\n--- Attendance Report ---")
+    for r in records:
+        roll, name, dept, branch, section, present_days = r
+        percent = (present_days / valid_days * 100) if valid_days > 0 else 0
+        status_msg = " Short (<75%)" if percent < 75 else " OK (>=75%)"
+        print(f"Roll: {roll}, Name: {name}, Dept: {dept}, Branch: {branch}, Sec: {section}, "
+              f"Present: {present_days}, Total: {valid_days}, %: {percent:.2f} --> {status_msg}")
+    print()
+
+def view_student_passwords():
+    cursor.execute("SELECT roll_no, name, department, branch, section, password FROM students")
+    students = cursor.fetchall()
+
+    if not students:
+        print("⚠️ No students found.\n")
+        return
+
+    print("\n--- Student Details with Passwords ---")
+    for s in students:
+        roll, name, dept, branch, section, pwd = s
+        print(f"Roll: {roll}, Name: {name}, Dept: {dept}, Branch: {branch}, Sec: {section}, Password: {pwd}")
+    print()
+
+# ---------------- Student Function ----------------
+def check_attendance_student():
+    roll_no = int(input("Enter your Roll No: "))
+    pwd = input("Enter your Password: ")
+
+    cursor.execute("SELECT name, department, branch, section FROM students WHERE roll_no=%s AND password=%s",
+                   (roll_no, pwd))
+    student = cursor.fetchone()
+
+    if student:
+        name, dept, branch, section = student
+
+        cursor.execute("SELECT DISTINCT date FROM attendance ORDER BY date")
+        working_days = cursor.fetchall()
+
+        valid_days = 0
+        for d in working_days:
+            cursor.execute("SELECT COUNT(*) FROM attendance WHERE date=%s AND status IN ('Present','Absent')", (d[0],))
+            if cursor.fetchone()[0] > 0:
+                valid_days += 1
+
+        cursor.execute("SELECT COUNT(*) FROM attendance WHERE roll_no=%s AND status='Present'", (roll_no,))
+        present_days = cursor.fetchone()[0]
+
+        percent = (present_days / valid_days * 100) if valid_days > 0 else 0
+
+        print(f"\nHello {name}!")
+        print(f"Department: {dept}, Branch: {branch}, Section: {section}")
+        print(f"Present: {present_days}, Total Working Days: {valid_days}, Attendance %: {percent:.2f}")
+
+        if percent < 75:
+            print("❌ Your attendance is short (less than 75%)\n")
+        else:
+            print("✅ Your attendance is >= 75%\n")
+    else:
+        print("❌ Invalid Roll No or Password.\n")
+
+# ---------------- Menus ----------------
+def teacher_menu():
+    while True:
+        print("\n--- Teacher Menu ---")
+        print("1. Add Student (with Face)")
+        print("2. Add Attendance (manual)")
+        print("3. Mark Attendance by Camera")
+        print("4. Check Attendance Report")
+        print("5. View Student Passwords")
+        print("6. Logout")
+        choice = input("Enter choice: ")
+
+        if choice == '1':
+            add_student()
+        elif choice == '2':
+            add_attendance()
+        elif choice == '3':
+            mark_attendance_by_camera()
+        elif choice == '4':
+            check_attendance_teacher()
+        elif choice == '5':
+            view_student_passwords()
+        elif choice == '6':
+            break
+        else:
+            print("❌ Invalid choice!\n")
+
+def main_menu():
+    while True:
+        print("\n--- Attendance Management System ---")
+        print("1. Teacher's Login")
+        print("2. Student Login")
+        print("3. Exit")
+        choice = input("Enter choice: ")
+
+        if choice == '1':
+            pwd = input("Enter Teacher Password: ")
+            if pwd == "teacher123":
+                teacher_menu()
+            else:
+                print("❌ Wrong Password!\n")
+        elif choice == '2':
+            check_attendance_student()
+        elif choice == '3':
+            print("👋 Exiting program...")
+            break
+        else:
+            print("❌ Invalid choice!\n")
+
+# Run program
+main_menu()
